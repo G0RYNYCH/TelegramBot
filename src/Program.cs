@@ -36,6 +36,7 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     Message newMessage = await botClient.SendTextMessageAsync(
     chatId: chatId,
     text: "I see you",
+    parseMode: ParseMode.Html,
     disableNotification: false,
     replyToMessageId: update.Message.MessageId,
     replyMarkup: new InlineKeyboardMarkup(
