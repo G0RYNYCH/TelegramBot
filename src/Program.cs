@@ -1,4 +1,6 @@
-﻿var botClient = new TelegramBotClient("5509847805:AAENAqMzNRfFoG30Yo3iwVbnUTDyXyB4xrA");
+﻿using Telegram.Bot.Types.ReplyMarkups;
+
+var botClient = new TelegramBotClient("5509847805:AAENAqMzNRfFoG30Yo3iwVbnUTDyXyB4xrA");
 
 using var cts = new CancellationTokenSource();
 
@@ -31,10 +33,16 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 
     Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
 
-    Message sentMessage = await botClient.SendTextMessageAsync(
-        chatId: chatId,
-        text: "You said:\n" + messageText,
-        cancellationToken: cancellationToken);
+    Message newMessage = await botClient.SendTextMessageAsync(
+    chatId: chatId,
+    text: "I see you",
+    disableNotification: false,
+    replyToMessageId: update.Message.MessageId,
+    replyMarkup: new InlineKeyboardMarkup(
+        InlineKeyboardButton.WithUrl(
+            "and you can see me",
+            "https://github.com/G0RYNYCH")),
+    cancellationToken: cancellationToken);
 }
 
 Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
